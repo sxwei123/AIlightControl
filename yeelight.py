@@ -10,16 +10,24 @@ class yeelight(threading.Thread):
         self.backCommand = ''
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((address, 10003))
+        self.running = True
+        self.daemon = True
 
     def run(self):
-        while True:
+        while self.running:
             res = self.sock.recv(1024)
-            self.buf.put()
+            self.buf.put(res)
             sleep(0.2)
 
     def readBuf(self):
         while not self.buf.empty():
-            self.backCommand + self.buf.get()
+            self.backCommand += self.buf.get()
+        cmdPos = self.backCommand.find('\n')
+        if cmdPos >= 0:
+            cmd = self.backCommand[:cmdPos].strip()
+            self.backCommand = self.backCommand[cmdPos+1:]
+            return cmd
+        return ''
 
     def close(self):
         self.sock.close()
