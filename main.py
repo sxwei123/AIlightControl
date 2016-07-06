@@ -14,7 +14,7 @@ yee.start()
 try:
     for i in range(0,1000):
         #yee.changeColor('0001',randint(0,255),randint(0,255),randint(0,255))
-        yee.control('0001',randint(0,255),randint(0,255),randint(0,255),randint(0,255))
+        #yee.control('0001',randint(0,255),randint(0,255),randint(0,255),randint(0,255))
         sleep(1)
         print '>>> ',yee.readBuf()
 finally:

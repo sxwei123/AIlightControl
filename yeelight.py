@@ -15,9 +15,13 @@ class yeelight(threading.Thread):
 
     def run(self):
         while self.running:
-            res = self.sock.recv(1024)
-            self.buf.put(res)
-            sleep(0.2)
+            try:
+                res = self.sock.recv(1024)
+                self.buf.put(res)
+            except:
+                pass
+            finally:
+                sleep(0.2)
 
     def readBuf(self):
         while not self.buf.empty():
